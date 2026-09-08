@@ -2,7 +2,7 @@
 
 # Progress Reward Modeling for Robotic Learning
 
-**🔥 An actively maintained paper list for progress reward modeling in robotics.**
+**(Still Actively Updating🔥) A survey-aligned map of how robots can tell whether they are moving forward, standing still, or undoing progress.**
 
 [![Awesome](https://awesome.re/badge-flat.svg)](https://awesome.re)
 [![HuggingFace](https://img.shields.io/badge/HuggingFace-Paper-FFD21E?logo=huggingface)](https://huggingface.co/papers/2607.21655)
@@ -13,29 +13,66 @@
 
 </div>
 
-A progress model estimates whether a robot is advancing, standing still, or undoing progress toward a goal. This list tracks work on constructing and evaluating these signals, along with closely related reward models.
-
-The list accompanies [Progress Reward Modeling for Robotic Learning: A Comprehensive Survey](https://arxiv.org/abs/2607.21655) and is updated as new papers and publication information become available.
+A terminal success label only says whether the task finished. A progress model asks the harder question during execution: <em>is the robot advancing, stagnating, or regressing under the current goal?</em>
 
 <p align="center">
-  <a href="#paper-list"><b>Paper list</b></a> ·
-  <a href="#categories"><b>Categories</b></a> ·
+  <a href="#survey-at-a-glance"><b>Survey map</b></a> ·
+  <a href="#paper-gallery"><b>Paper gallery</b></a> ·
   <a href="#citation"><b>Citation</b></a> ·
   <a href="CONTRIBUTING.md"><b>Contribute</b></a>
 </p>
 
-## Categories
+<p align="center">
+  <img src="img/survey/evolution.png" width="100%" alt="Evolution of progress reward modeling from 2017 to 2026">
+</p>
 
-The labels below abbreviate the repository's four method families. Existing category assignments are retained when reorganizing the list; some papers span multiple families.
+## Survey at a Glance
 
-| Label | Method family | How the reward or progress signal is constructed |
+The paper follows one continuous path from definition to evidence. The README mirrors that path so every section can be traced back to the source.
+
+| Survey layer | Question | Organization used in the paper |
 |---|---|---|
-| Instruction-tuned | Instruction-Tuned Progress Prediction | Fine-tune foundation models to answer explicit progress, success, delta, preference, or reasoning instructions. |
-| Frozen FM | Frozen Foundation Models as Semantic Scorers | Use frozen pretrained foundation models directly for zero-shot or in-context reward scoring. |
-| Temporal / relative | Learning from Temporal and Relative Supervision | Learn from demonstration order, stage annotations, goal proximity, comparisons, preferences, or human feedback. |
-| Programmatic | Programmatic Reward Construction | Construct executable reward code, predicates, or features. |
+| **1 · Interface** | What does the model receive and return? | current-state representation · task-goal specification · output form |
+| **2 · Methods** | Where does the progress signal come from? | frozen foundation models · temporal/relative supervision · instruction tuning · programmatic rewards |
+| **3 · Data & benchmarks** | How is supervision produced, and what does evaluation prove? | human-driven · human-in-the-loop · automated; fidelity · robustness/generalization · downstream utility |
+| **4 · Limitations** | What still breaks in realistic use? | weak temporal assumptions · partial observability · calibration/generalization · closed-loop reliability |
 
-## Paper List
+## Quick Navigation
+
+| Section | What to look for |
+|---|---|
+| [Interface](#interface) | The exact input/output design space from the survey. |
+| [Construction paradigms](#construction-paradigms) | The four method families used in the paper. |
+| [Paper Gallery](#paper-gallery) | Papers with venue, previews, code/project links, and BibTeX. |
+| [Data & Benchmark Lens](#data--benchmark-lens) | How labels are built and what each evaluation actually validates. |
+| [Limitations](#open-problems) | The paper's deployment-relevant open problems. |
+
+## Interface
+
+<p align="center">
+  <img src="img/survey/interface.png" width="100%" alt="Interface taxonomy of progress models">
+</p>
+
+| Design axis | Choices in the paper | Core trade-off |
+|---|---|---|
+| **Current task state** | single observation · temporal context · relational comparison · state/API access | More context resolves ambiguity, but increases latency and weakens online usability. |
+| **Task goal** | language · goal image or demonstration · structured/programmatic goal | Richer grounding reduces ambiguity, but needs more curation or privileged state. |
+| **Model output** | state-wise score · progress delta · ranking · executable reward function | The output determines whether the model naturally fits monitoring, comparison, planning, or RL. |
+
+## Construction Paradigms
+
+<p align="center">
+  <img src="img/survey/methods.png" width="100%" alt="Four paradigms for constructing progress rewards">
+</p>
+
+| Paradigm | Signal source | Strength | Main caveat |
+|---|---|---|---|
+| **Frozen foundation-model scoring** | image-text similarity, token probability, in-context value judgment | zero-shot use | semantic prior is not automatically a calibrated reward |
+| **Temporal / relative supervision** | demonstration order, proximity, preferences, rankings | scalable weak supervision | time is not always progress; comparisons still need scalarization |
+| **Instruction-tuned progress prediction** | explicit progress, success, delta, preference, or reasoning targets | dedicated progress capability | requires well-grounded targets and coverage of failures/regressions |
+| **Programmatic reward construction** | generated code, predicates, features, APIs | interpretable and editable | only as faithful as the available state and task decomposition |
+
+## Paper Gallery
 
 | Date | Paper | Venue / Status | Resources | Primary Category |
 |---|---|---|---|---|
@@ -88,24 +125,64 @@ The labels below abbreviate the repository's four method families. Existing cate
 | 2019/04 | [**End-to-End Robotic Reinforcement Learning without Reward Engineering**](https://arxiv.org/abs/1904.07854)<details><summary>Preview</summary><img width="220" alt="End-to-End Robotic Reinforcement Learning without Reward Engineering overview" src="img/1904_reward_learning_rl.png"></details> | [RSS 2019](https://www.roboticsproceedings.org/rss15/p73.html) | [Code](https://github.com/avisingh599/reward-learning-rl)<details><summary>BibTeX</summary><pre><code class="language-bibtex">@misc{singh2019endtoendroboticreinforcementlearning,<br>  title={End-to-End Robotic Reinforcement Learning without Reward Engineering},<br>  author={Avi Singh and Larry Yang and Kristian Hartikainen and Chelsea Finn and Sergey Levine},<br>  year={2019},<br>  eprint={1904.07854},<br>  archivePrefix={arXiv},<br>  primaryClass={cs.LG},<br>  url={https://arxiv.org/abs/1904.07854},<br>}</code></pre></details> | Temporal / relative |
 | 2016/12 | [**Unsupervised Perceptual Rewards for Imitation Learning**](https://arxiv.org/abs/1612.06699)<details><summary>Preview</summary><img width="220" alt="Unsupervised Perceptual Rewards for Imitation Learning overview" src="img/1612_perceptual_rewards.png"></details> | [RSS 2017](https://www.roboticsproceedings.org/rss13/p50.html) | [Project](https://sermanet.github.io/rewards/)<details><summary>BibTeX</summary><pre><code class="language-bibtex">@misc{sermanet2017unsupervisedperceptualrewardsimitation,<br>  title={Unsupervised Perceptual Rewards for Imitation Learning},<br>  author={Pierre Sermanet and Kelvin Xu and Sergey Levine},<br>  year={2017},<br>  eprint={1612.06699},<br>  archivePrefix={arXiv},<br>  primaryClass={cs.CV},<br>  url={https://arxiv.org/abs/1612.06699},<br>}</code></pre></details> | Temporal / relative |
 
+## Data & Benchmark Lens
+
+<p align="center">
+  <img src="img/survey/data-benchmarks.png" width="100%" alt="Progress data construction and benchmark taxonomy">
+</p>
+
+### How progress supervision is constructed
+
+| Human involvement | Typical pipeline | Trade-off |
+|---|---|---|
+| **Human-driven** | teleoperation, human videos, scalar labels, success cutoffs, keyframes, reward sketches, comparisons | strongest semantic grounding; expensive and subjective |
+| **Human-in-the-loop** | sparse anchors, interpolation, model proposals with verification, active queries, prompt/API design | balances control and scale; sparse checks can miss systematic errors |
+| **Fully automated** | temporal order, simulator predicates, expert/noisy policies, VLM/LLM labels, synthetic reversals and failures | scales well; inherits simplifying assumptions and annotator bias |
+
+### What a benchmark can actually validate
+
+| Evaluation goal | What it tests | Representative evidence |
+|---|---|---|
+| **Progress fidelity** | Does the score represent advancement? | scalar calibration · temporal consistency · relative ordering · task grounding · uncertainty/answerability |
+| **Robustness & generalization** | Does that meaning survive distribution shift? | unseen tasks · new viewpoints/scenes · cross-embodiment transfer · non-monotonic execution |
+| **Downstream utility** | Is the signal useful for decision making? | online RL · offline relabeling · retrieval/reranking · planning/action selection |
+
+> A reward can improve policy learning without faithfully representing progress. Conversely, a calibrated progress estimator may still be too sparse, noisy, or expensive for closed-loop control. The survey treats fidelity and utility as separate claims.
+
+## Open Problems
+
+- **Weak temporal assumptions.** Later frames are not necessarily better under pauses, retries, regressions, or alternative strategies.
+- **Partial observability.** RGB alone may miss history, contact force, grasp stability, slipping, and other physical state.
+- **Generalization and calibration.** Scores often change meaning across tasks, views, scenes, and embodiments; uncertainty and abstention remain underdeveloped.
+- **Closed-loop reliability.** Automatic labels can be biased, learned rewards can be exploited, and frequent reward queries can be costly.
+
+## Repository Layout
+
+```text
+.
+├── README.md            # survey map + curated paper gallery
+├── img/                 # paper previews and README-ready figures
+└── CONTRIBUTING.md
+```
+
 ## Citation
 
-If you find this list or our survey useful, please consider citing the survey:
+Until archival release metadata is available, use this repository citation:
 
 ```bibtex
 @misc{zhang2026progressrewardmodeling,
-  title         = {Progress Reward Modeling for Robotic Learning: A Comprehensive Survey},
-  author        = {Zhang, Jianshu and Wu, Keliang and Lu, Haoran and Liu, Anbang and
-                   Zhang, Ce and Yin, Weijie and Qian, Chengxuan and Yang, Xiyuan and
-                   Pan, Zhenyu and Ye, Guo and Liu, Han},
-  year          = {2026},
-  eprint        = {2607.21655},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.RO},
-  url           = {https://arxiv.org/abs/2607.21655}
+  title  = {Progress Reward Modeling for Robotic Learning: A Comprehensive Survey},
+  author = {Zhang, Jianshu and Wu, Keliang and Lu, Haoran and Liu, Anbang and
+            Zhang, Ce and Yin, Weijie and Qian, Chengxuan and Yang, Xiyuan and
+            Pan, Zhenyu and Ye, Guo and Liu, Han},
+  year   = {2026},
+  note   = {Survey manuscript},
+  url    = {https://github.com/sterzhang/Awesome-Progress-Models}
 }
 ```
 
 ## Contributing
 
-Suggestions for relevant papers, publication updates, and corrected links are welcome through [issues](https://github.com/sterzhang/Awesome-Progress-Models/issues) or pull requests. Please follow [CONTRIBUTING.md](CONTRIBUTING.md) when adding or updating a row.
+Contributions are welcome through pull requests. Please follow [CONTRIBUTING.md](CONTRIBUTING.md).
+
+To keep this repository consistent with the survey, new README entries should either be cited in the survey or be proposed together with the corresponding survey citation update.
