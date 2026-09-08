@@ -37,12 +37,6 @@ The labels below abbreviate the repository's four method families. Existing cate
 
 ## Paper List
 
-Papers are sorted newest to oldest by their **first arXiv submission date**, with the month shown below. A `*` marks a proceedings or conference month used when no arXiv submission date has been verified; it is not a verified first-preprint date.
-
-**Venue / Status** gives the confirmed conference or journal and its event/publication year. Workshops are explicitly labeled. `arXiv` means that an accepted venue has not been verified. Venue links lead to proceedings, conference listings, or authors' acceptance announcements. Publication metadata last checked: **2026-09-08**.
-
-Expand **Preview** or **BibTeX** for additional details. Paper titles and citations follow their linked versions; a later conference version may have a different title or author list.
-
 | Date | Paper | Venue / Status | Resources | Primary Category |
 |---|---|---|---|---|
 | 2026/07 | [**UR-VC: Unsupervised Robotic Value Correction for Time-Derived Progress Proxies**](https://arxiv.org/abs/2607.12892)<details><summary>Preview</summary><img width="220" alt="UR-VC: Unsupervised Robotic Value Correction for Time-Derived Progress Proxies overview" src="img/2607_ur_vc.png"></details> | arXiv | [Project](https://liruizhao.com/projects/UR-VC/)<details><summary>BibTeX</summary><pre><code class="language-bibtex">@misc{zhao2026urvc,<br>  title={UR-VC: Unsupervised Robotic Value Correction for Time-Derived Progress Proxies},<br>  author={Zhao, Lirui and Shi, Modi and Chen, Li and Liu, Qi and Luo, Ping and Li, Hongyang},<br>  year={2026},<br>  eprint={2607.12892},<br>  archivePrefix={arXiv},<br>  primaryClass={cs.RO},<br>  url={https://arxiv.org/abs/2607.12892},<br>}</code></pre></details> | Temporal / relative |
